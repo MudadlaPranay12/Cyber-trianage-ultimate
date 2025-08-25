@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Cyber Triage ULTIMATE{% endblock %}
+{% block body %}
+<div class="card">
+  <h2>Risk Overview</h2>
+  <div class="grid cols-2">
+
+    <!-- Left Column: Counter + Chart -->
+    <div>
+      <div class="counter" id="total">{{ total }}</div>
+      <canvas id="riskChart" width="420" height="260"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        const counts = {{ counts | tojson }};
+        const chart = new Chart(document.getElementById('riskChart'), {
+          type: 'pie',
+          data: {
+            labels: ['High', 'Medium', 'Low'],
+            datasets: [{
+              data: [counts['High'] || 0, counts['Medium'] || 0, counts['Low'] || 0],
+              backgroundColor: ['#ff4b5c', '#ffce3a', '#1fa2ff']
+            }]
+          }
+        });
+
+        // Animated counter
+        const el = document.getElementById('total');
+        const end = {{ total }};
+        let n = 0;
+        const step = () => {
+          n += Math.max(1, Math.ceil(end / 40));
+          if (n > end) n = end;
+          el.textContent = n;
+          if (n < end) requestAnimationFrame(step);
+        };
+        step();
+      </script>
+    </div>
+
+    <!-- Right Column: Recent Scans + Leaderboard -->
+    <div>
+      <b>Recent Scans</b>
+      <div class="timeline">
+        {% for s in recent %}
+        <div class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-body">
+            <div><b>{{ s.filename }}</b> — <span>{{ s.label }}</span></div>
+            <small>{{ s.created_at }}</small>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <b>Leaderboard (Top 10)</b>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in top %}
+          <tr>
+            <td>{{ r.username }}</td>
+            <td>{{ r.points }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

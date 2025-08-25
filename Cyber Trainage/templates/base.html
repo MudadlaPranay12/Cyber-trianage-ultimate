@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Cyber Triage ULTIMATE{% endblock %}</title>
+  <title>{% block title %}Cyber Triage Tool{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
 </head>
+
 <body>
   <div class="nav">
-    <div class="brand">🛡️ Cyber Triage ULTIMATE</div>
+    <div class="brand">🛡️ Cyber Triage Tool</div>
     <div>
       <a href="{{ url_for('home') }}">Home</a>
       {% if user %}
-        <a href="{{ url_for('scan') }}">Scan</a>
-        <a href="{{ url_for('dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('timeline') }}">Timeline</a>
-        <a href="{{ url_for('simulator') }}">Simulator</a>
-        <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
-        <a href="{{ url_for('notes') }}">Notes</a>
-        <a href="{{ url_for('logout') }}">Logout ({{ user }})</a>
+      <a href="{{ url_for('scan') }}">Scan</a>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('timeline') }}">Timeline</a>
+      <a href="{{ url_for('simulator') }}">Simulator</a>
+      <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+      <a href="{{ url_for('notes') }}">Notes</a>
+      <a href="{{ url_for('logout') }}">Logout ({{ user }})</a>
       {% else %}
-        <a href="{{ url_for('login') }}">Login</a>
-        <a href="{{ url_for('register') }}">Register</a>
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('register') }}">Register</a>
       {% endif %}
     </div>
   </div>
   {% block body %}{% endblock %}
 </body>
+
 </html>

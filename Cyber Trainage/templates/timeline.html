@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Timeline - Cyber Triage ULTIMATE{% endblock %}
+{% block body %}
+<div class="card">
+  <h2>Investigation Timeline</h2>
+  <div class="timeline">
+    {% for e in events %}
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-body">
+          <div><b>{{ e.kind }}</b> — {{ e.detail }}</div>
+          <small>{{ e.created_at }} • {{ e.filename or '—' }}</small>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

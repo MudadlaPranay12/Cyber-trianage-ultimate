@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Secure Notes - Cyber Triage ULTIMATE{% endblock %}
+{% block body %}
+<div class="card">
+  <h2>Secure Notes (AES encrypted)</h2>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for cat,msg in messages %}
+        <div class="{{ 'error' if cat=='error' else 'notice' }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <form method="post">
+    <input type="text" name="title" placeholder="Title">
+    <textarea name="content" rows="6" placeholder="Type your investigation note..."></textarea>
+    <button type="submit" onclick="gsap.fromTo(this,{scale:1},{scale:1.08,duration:.2,yoyo:true,repeat:1})">Save Secure Note</button>
+  </form>
+  <h3>My Notes</h3>
+  <ul>
+    {% for n in items %}
+      <li><a href="{{ url_for('note_read', note_id=n.id) }}">{{ n.title }}</a> <small>({{ n.created_at }})</small></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

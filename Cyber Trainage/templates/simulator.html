@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Attack Simulator - Cyber Triage ULTIMATE{% endblock %}
+{% block body %}
+<div class="card">
+  <h2>Gamified Attack Simulator</h2>
+  <p class="small">Choose a scenario to defend. Earn points and climb the leaderboard!</p>
+  <form method="post">
+    <select name="choice" style="width:100%;padding:12px;border-radius:12px;background:#0b1430;border:1px solid #1fa2ff55;color:white;margin:10px 0">
+      {% for s in scenarios %}
+        <option value="{{ s.id }}">{{ s.name }} — {{ s.desc }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Defend Scenario</button>
+  </form>
+  {% if result %}
+    <div class="notice">{{ result.msg }}</div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Scan - Cyber Triage ULTIMATE{% endblock %}
+{% block body %}
+<div class="card">
+  <h2>Scan a File</h2>
+  <form method="post" enctype="multipart/form-data" onsubmit="startAnim()">
+    <label class="file">📦 Choose file to analyze <input type="file" name="file" required></label>
+    <button type="submit">Run Analysis</button>
+  </form>
+  <div id="anim" style="height:160px"></div>
+
+  {% if result %}
+    <script>document.getElementById('anim').innerHTML='';</script>
+    <div class="ribbon {{ 'high' if result.label=='High' else ('med' if result.label=='Medium' else 'low') }}">
+      <div>Result: <b>{{ result.label }}</b> (Score: {{ result.score }})</div>
+    </div>
+    <div class="grid cols-2">
+      <div>
+        <ul>
+          <li><b>Filename:</b> {{ result.filename }}</li>
+          <li><b>Extension:</b> {{ result.ext or 'n/a' }}</li>
+          <li><b>Size:</b> {{ result.size }} bytes</li>
+          <li><b>YARA hit:</b> {{ 'Yes' if result.yara_hit else 'No' }}</li>
+          <li><b>Suspicious name:</b> {{ 'Yes' if result.suspicious_name else 'No' }}</li>
+          <li><b>Rare extension:</b> {{ 'Yes' if result.anomaly_ext else 'No' }}</li>
+        </ul>
+        <p><a class="btn" href="{{ url_for('report', scan_id=result.id) }}">Download PDF Report</a></p>
+      </div>
+      <div>
+        <h3>Behavior Preview</h3>
+        <ul>
+          {% for b in behaviors %}
+            <li>• {{ b }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for cat,msg in messages %}
+        <div class="{{ 'error' if cat=='error' else 'notice' }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+<script>
+function startAnim(){
+  var container = document.getElementById('anim');
+  container.innerHTML='';
+  lottie.loadAnimation({container: container,renderer: 'svg',loop: true,autoplay: true,
+    path: 'https://assets2.lottiefiles.com/private_files/lf30_uqcbv0mp.json'});
+}
+</script>
+{% endblock %}

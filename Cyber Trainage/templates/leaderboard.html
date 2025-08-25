@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Leaderboard - Cyber Triage ULTIMATE{% endblock %}
+{% block body %}
+<div class="card">
+  <h2>Leaderboard</h2>
+  <table class="table">
+    <thead><tr><th>User</th><th>Points</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr><td>{{ r.username }}</td><td>{{ r.points }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

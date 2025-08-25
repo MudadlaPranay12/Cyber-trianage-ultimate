@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Home - Cyber Triage Tool{% endblock %}
+{% block body %}
+<div class="bg-hero" id="hero">
+  <div class="card" style="margin:auto">
+    <h1> Ultimate Cyber Triage </h1>
+    <p class="small">AI‑inspired scoring • Gamified defense • Encrypted notes • Animated timeline</p>
+    {% if not user %}
+    <p><a class="btn" href="{{ url_for('login') }}">Login</a> <a class="btn secondary"
+        href="{{ url_for('register') }}">Register</a></p>
+    {% else %}
+    <p><a class="btn" href="{{ url_for('scan') }}">Start a Scan</a> <a class="btn secondary"
+        href="{{ url_for('dashboard') }}">Dashboard</a></p>
+    {% endif %}
+  </div>
+</div>
+<script>
+  // Subtle entrance animation
+  gsap.from(".card", { y: 40, opacity: 0, duration: 0.9, ease: "power3.out" });
+</script>
+{% endblock %}
